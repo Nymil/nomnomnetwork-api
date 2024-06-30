@@ -13,24 +13,24 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post("user/login", function () { return "Not implementer"; });
-Route::post("user/register", function () { return "Not implementer"; });
+Route::post("user/login", function () { return "Not implemented"; });
+Route::post("user/register", function () { return "Not implemented"; });
 
 Route::group([
     // auth middleware later
 ], function () {
-    Route::get("user/check", function () { return "Not implementer"; });
-    Route::get("user/logout", function () { return "Not implementer"; });
+    Route::get("user/check", function () { return "Not implemented"; });
+    Route::get("user/logout", function () { return "Not implemented"; });
 
-    Route::put("user/{user_id}/recipe/{recipe_id}", function () { return "Not implementer"; }); // for liking a recipe
+    Route::put("user/{user_id}/recipe/{recipe_id}", function () { return "Not implemented"; }); // for liking a recipe
 
-    Route::get("recipes", function () { return "Not implementer"; });
-    Route::get("recipe/{id}", function () { return "Not implementer"; });
-    Route::post("recipe", function () { return "Not implementer"; });
+    Route::get("recipes", function () { return "Not implemented"; });
+    Route::get("recipe/{id}", function () { return "Not implemented"; });
+    Route::post("recipe", function () { return "Not implemented"; });
 
     // later aditions 
 
-    Route::put("recipe/{id}", function () { return "Not implementer"; });
-    Route::delete("recipe/{id}", function () { return "Not implementer"; });
+    Route::put("recipe/{id}", function () { return "Not implemented"; });
+    Route::delete("recipe/{id}", function () { return "Not implemented"; });
 
 });
