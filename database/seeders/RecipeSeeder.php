@@ -22,11 +22,11 @@ class RecipeSeeder extends Seeder
         fgetcsv($file);
 
         while (($line = fgetcsv($file, 0, ',')) !== FALSE) {
-            $userName = DB::table('users')->inRandomOrder()->value('name');
+            $creatorId = DB::table('users')->inRandomOrder()->value('id');
 
             $recipe = new Recipe();
             $recipe->name = $line[0];
-            $recipe->creator_name = $userName;
+            $recipe->creator_id = $creatorId;
             $recipe->image_url = "not implemented yet";
             $recipe->category = $line[1];
             $recipe->calories = $line[2];

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->require();
-            $table->string('creator_name')->require();
+            $table->unsignedBigInteger('creator_id')->require();
             $table->binary('image_url');
             $table->string('category')->nullable();
             $table->integer('calories')->require();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('instructions')->require();
             $table->timestamps();
 
-            $table->foreign('creator_name')->references('name')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
