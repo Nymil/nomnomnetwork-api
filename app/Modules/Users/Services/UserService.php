@@ -11,7 +11,7 @@ class UserService extends Service {
     protected $rules = [
         "add" => [
             'name' => 'required|unique:users,name',
-            'password' => 'required|min:6',
+            'password' => 'required|min:5',
         ],
     ];
 
