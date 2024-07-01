@@ -13,4 +13,10 @@ class UserController extends Controller
     {
         $this->service = $service;
     }
+
+    public function all(Request $request)
+    {
+        $search = $request->query('search', '');
+        $category = $request->query('category', '');
+    }
 }

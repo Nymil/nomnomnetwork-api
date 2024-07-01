@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,7 @@ Route::group([
 
     Route::put("user/{user_id}/recipe/{recipe_id}", function () { return "Not implemented"; }); // for liking a recipe
 
-    Route::get("recipes", function () { return "Not implemented"; });
+    Route::get("recipes", [RecipeController::class, 'all']);
     Route::get("recipe/{id}", function () { return "Not implemented"; });
     Route::post("recipe", function () { return "Not implemented"; });
 
