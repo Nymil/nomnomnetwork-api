@@ -12,4 +12,10 @@ class Recipe extends Model
     protected $casts = [
         'ingredients' => 'array',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'creator_id'
+    ];
 }
