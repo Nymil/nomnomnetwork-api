@@ -20,6 +20,7 @@ class RecipeService extends Service {
 
     private function transformToSimple($recipe) {
         return [
+            'id' => $recipe->id,
             'name' => $recipe->name,
             'creator' => $recipe->creator,
             'image_url' => $recipe->image_url
