@@ -16,6 +16,13 @@ class Recipe extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'creator_id'
+        'creator_id',
+        'likes'
     ];
+
+    // a like is another model with the properties user_id and recipe_id
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'recipe_id', 'id');
+    }
 }

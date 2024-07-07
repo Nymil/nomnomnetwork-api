@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Recipes\Services\RecipeService;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+
 
 class RecipeController extends Controller
 {
@@ -26,4 +28,15 @@ class RecipeController extends Controller
         $recipes = $this->service->allRecipes($search, $category);
         return response()->json($recipes);
     }
+
+    public function get($id)
+    {
+        $recipe = $this->service->getRecipe($id);
+
+        if (!is_numeric($id) || !$recipe) {
+            return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($recipe);
+    }	
 }

@@ -26,7 +26,7 @@ Route::group([
     Route::put("user/{user_id}/recipe/{recipe_id}", function () { return "Not implemented"; }); // for liking a recipe
 
     Route::get("recipes", [RecipeController::class, 'all']);
-    Route::get("recipe/{id}", function () { return "Not implemented"; });
+    Route::get("recipes/{id}", [RecipeController::class, 'get']);
     Route::post("recipe", function () { return "Not implemented"; });
 
     Route::get("recipes/liked/{user_id}", function () { return "Not implemented"; });

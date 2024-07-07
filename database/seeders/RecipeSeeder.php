@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Like;
 use App\Models\Recipe;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -36,5 +37,10 @@ class RecipeSeeder extends Seeder
             $recipe->save();
         }
         fclose($file);
+
+        $like = new Like();
+        $like->user_id = 2;
+        $like->recipe_id = 1;
+        $like->save();
     }
 }

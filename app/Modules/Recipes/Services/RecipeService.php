@@ -17,7 +17,32 @@ class RecipeService extends Service {
         $recipe->creator = DB::table('users')->where('id', $recipe->creator_id)->value('name');
         return $recipe;
     }
-    
+
+    public function addLikesToRecipe($recipe) {
+        if ($recipe->likes === null) {
+            $recipe->likes = [];
+            return $recipe;
+        }
+
+        $recipe->liked_by = $recipe->likes->map(function ($like) {
+            return $like->user->name;
+        });
+
+        return $recipe;
+    }
+
+    public function getRecipe($id) {
+        $recipe = $this->model->find($id);
+
+        if (!$recipe) {
+            return null;
+        }
+
+        $recipeWithCreator = $this->addCreatorToRecipe($recipe);
+
+        return $this->addLikesToRecipe($recipeWithCreator);
+    }
+
     public function allRecipes($search, $category) {
         $query = $this->model->query();
 
