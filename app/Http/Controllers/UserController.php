@@ -26,4 +26,32 @@ class UserController extends Controller
         $recipes = $this->service->getCreatedRecipes($user);
         return response()->json($recipes);
     }
+
+    public function getLikedRecipes(Request $request, $user_id)
+    {
+        $user = $this->service->get($user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $recipes = $this->service->getLikedRecipes($user);
+        return response()->json($recipes);
+    }
+
+    public function likeRecipe(Request $request, $user_id, $recipe_id) {
+        $user = $this->service->get($user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $recipe = $this->service->likeRecipe($user, $recipe_id);
+
+        if (!$recipe) {
+            return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($recipe);
+    }
 }

@@ -24,13 +24,13 @@ Route::group([
     Route::get("user/check", function () { return "Not implemented"; });
     Route::get("user/logout", function () { return "Not implemented"; });
 
-    Route::put("user/{user_id}/recipe/{recipe_id}", function () { return "Not implemented"; }); // for liking a recipe
+    Route::put("user/{user_id}/recipe/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
 
     Route::get("recipes", [RecipeController::class, 'all']);
     Route::get("recipes/{id}", [RecipeController::class, 'get']);
     Route::post("recipe", function () { return "Not implemented"; });
 
-    Route::get("recipes/liked/{user_id}", function () { return "Not implemented"; });
+    Route::get("recipes/liked/{user_id}", [UserController::class, 'getLikedRecipes']);
     Route::get("recipes/created/{user_id}", [UserController::class, 'getCreatedRecipes']);
 
     // later aditions 

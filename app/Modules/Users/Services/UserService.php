@@ -2,6 +2,8 @@
 
 namespace App\Modules\Users\Services;
 
+use App\Models\Like;
+use App\Models\Recipe;
 use App\Models\User;
 use App\Modules\Core\Services\Service;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +45,13 @@ class UserService extends Service {
         });
     }
 
+    public function getLikedRecipes(User $user) {
+        $fullRecipes = $user->liked_recipes;
+        return $fullRecipes->map(function ($recipe) {
+            return $this->transformToSimpleRecipe($this->addUserToRecipe($recipe));
+        });
+    }
+
     private function addUserToRecipe($recipe) {
         $recipe->creator = $this->model->where('id', $recipe->creator_id)->value('name');
         return $recipe;
@@ -55,4 +64,24 @@ class UserService extends Service {
             'image_url' => $recipe->image_url
         ];
     }
+
+    public function likeRecipe($user, $recipe_id) {
+        $recipe = Recipe::find($recipe_id);
+        
+        if (!$recipe) {
+            return null;
+        }
+
+        $likeExists = Like::where('user_id', $user->id)->where('recipe_id', $recipe_id)->exists();
+
+        if (!$likeExists) {
+            // Create a new like record
+            $like = new Like();
+            $like->user_id = $user->id;
+            $like->recipe_id = $recipe_id;
+            $like->save();
+        }
+
+        return $recipe;
+    }	
 }
