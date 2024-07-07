@@ -13,13 +13,11 @@ class RecipeService extends Service {
         parent::__construct($model);
     }
 
-    private function addCreatorToRecipe($data) {
-        return $data->map(function ($recipe) {
-            $recipe->creator = DB::table('users')->where('id', $recipe->creator_id)->value('name');
-            return $recipe;
-        });
+    private function addCreatorToRecipe($recipe) {
+        $recipe->creator = DB::table('users')->where('id', $recipe->creator_id)->value('name');
+        return $recipe;
     }
-
+    
     public function allRecipes($search, $category) {
         $query = $this->model->query();
 
@@ -33,7 +31,8 @@ class RecipeService extends Service {
         $returnData = $query->get();
         
         // we only need the creator name, the name of the recipe and the image url
-        return $this->addCreatorToRecipe($returnData)->map(function ($recipe) {
+        return $returnData->map(function ($recipe) {
+            $recipe = $this->addCreatorToRecipe($recipe);
             return [
                 'name' => $recipe->name,
                 'creator' => $recipe->creator,
