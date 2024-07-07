@@ -30,7 +30,7 @@ Route::group([
     Route::post("recipe", function () { return "Not implemented"; });
 
     Route::get("recipes/liked/{user_id}", function () { return "Not implemented"; });
-    Route::get("recipes/created/{user_id}", function () { return "Not implemented"; });
+    Route::get("recipes/created/{user_id}", [RecipeController::class, 'getRecipesCreatedByUser']);
 
     // later aditions 
 

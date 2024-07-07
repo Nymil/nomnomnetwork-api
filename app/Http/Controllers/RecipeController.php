@@ -38,5 +38,11 @@ class RecipeController extends Controller
         }
 
         return response()->json($recipe);
-    }	
+    }
+
+    public function getRecipesCreatedByUser(Request $request, $user_id)
+    {
+        $recipes = $this->service->getRecipesCreatedByUser($user_id);
+        return response()->json($recipes);
+    }
 }

@@ -18,6 +18,25 @@ class RecipeService extends Service {
         return $recipe;
     }
 
+    private function transformToSimple($recipe) {
+        return [
+            'name' => $recipe->name,
+            'creator' => $recipe->creator,
+            'image_url' => $recipe->image_url
+        ];
+    }
+
+    public function getRecipesCreatedByUser($user_id) {
+        $recipes = $this->model->where('creator_id', $user_id)->get();
+        $recipesWithCreator = $recipes->map(function ($recipe) {
+            return $this->addCreatorToRecipe($recipe);
+        });
+
+        return $recipesWithCreator->map(function ($recipe) {
+            return $this->transformToSimple($recipe);
+        });
+    }
+
     public function addLikesToRecipe($recipe) {
         if ($recipe->likes === null) {
             $recipe->likes = [];
@@ -58,11 +77,7 @@ class RecipeService extends Service {
         // we only need the creator name, the name of the recipe and the image url
         return $returnData->map(function ($recipe) {
             $recipe = $this->addCreatorToRecipe($recipe);
-            return [
-                'name' => $recipe->name,
-                'creator' => $recipe->creator,
-                'image_url' => $recipe->image_url,
-            ];
+            return $this->transformToSimple($recipe);
         });
     }
 }
