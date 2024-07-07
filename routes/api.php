@@ -25,6 +25,7 @@ Route::group([
     Route::get("user/logout", function () { return "Not implemented"; });
 
     Route::put("user/{user_id}/recipe/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
+    Route::delete("user/{user_id}/recipe/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
 
     Route::get("recipes", [RecipeController::class, 'all']);
     Route::get("recipes/{id}", [RecipeController::class, 'get']);

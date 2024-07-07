@@ -54,4 +54,20 @@ class UserController extends Controller
 
         return response()->json($recipe);
     }
+
+    public function unlikeRecipe(Request $request, $user_id, $recipe_id) {
+        $user = $this->service->get($user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $recipe = $this->service->unlikeRecipe($user, $recipe_id);
+
+        if (!$recipe) {
+            return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($recipe);
+    }
 }

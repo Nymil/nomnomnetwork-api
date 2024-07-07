@@ -83,5 +83,21 @@ class UserService extends Service {
         }
 
         return $recipe;
-    }	
+    }
+
+    public function unlikeRecipe($user, $recipe_id) {
+        $recipe = Recipe::find($recipe_id);
+        
+        if (!$recipe) {
+            return null;
+        }
+
+        $like = Like::where('user_id', $user->id)->where('recipe_id', $recipe_id)->first();
+
+        if ($like) {
+            $like->delete();
+        }
+
+        return $recipe;
+    }
 }
