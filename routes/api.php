@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::group([
     Route::post("recipe", function () { return "Not implemented"; });
 
     Route::get("recipes/liked/{user_id}", function () { return "Not implemented"; });
-    Route::get("recipes/created/{user_id}", [RecipeController::class, 'getRecipesCreatedByUser']);
+    Route::get("recipes/created/{user_id}", [UserController::class, 'getCreatedRecipes']);
 
     // later aditions 
 

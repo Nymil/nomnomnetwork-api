@@ -26,17 +26,6 @@ class RecipeService extends Service {
         ];
     }
 
-    public function getRecipesCreatedByUser($user_id) {
-        $recipes = $this->model->where('creator_id', $user_id)->get();
-        $recipesWithCreator = $recipes->map(function ($recipe) {
-            return $this->addCreatorToRecipe($recipe);
-        });
-
-        return $recipesWithCreator->map(function ($recipe) {
-            return $this->transformToSimple($recipe);
-        });
-    }
-
     public function addLikesToRecipe($recipe) {
         if ($recipe->likes === null) {
             $recipe->likes = [];

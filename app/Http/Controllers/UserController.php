@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Users\Services\UserService;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,9 +15,15 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function all(Request $request)
+    public function getCreatedRecipes(Request $request, $user_id)
     {
-        $search = $request->query('search', '');
-        $category = $request->query('category', '');
+        $user = $this->service->get($user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $recipes = $this->service->getCreatedRecipes($user);
+        return response()->json($recipes);
     }
 }
