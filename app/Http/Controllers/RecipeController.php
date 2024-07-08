@@ -39,4 +39,16 @@ class RecipeController extends Controller
 
         return response()->json($recipe);
     }
+
+    public function add(Request $request)
+    {
+        $data = $request->all();
+        $recipe = $this->service->addRecipe($data);
+
+        if ($this->service->hasErrors()) {
+            return response()->json(['error' => 'Invalid data', 'errors' => $this->service->getErrors()], Response::HTTP_BAD_REQUEST);
+        }
+
+        return response()->json($recipe, Response::HTTP_CREATED);
+    }
 }

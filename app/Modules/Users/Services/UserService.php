@@ -76,7 +76,6 @@ class UserService extends Service {
         $likeExists = Like::where('user_id', $user->id)->where('recipe_id', $recipe_id)->exists();
 
         if (!$likeExists) {
-            // Create a new like record
             $like = new Like();
             $like->user_id = $user->id;
             $like->recipe_id = $recipe_id;

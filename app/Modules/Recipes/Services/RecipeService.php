@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 class RecipeService extends Service {
 
+    protected $rules = [
+        'add' => [
+            'name' => 'required|string',
+            'creator_id' => 'required|integer|exists:users,id|min:1',
+            'category' => 'required|string|in:appetizers,starters,maindishes,desserts',
+            'calories' => 'required|integer|min:3',
+            'ingredients' => 'required|array|min:1',
+            'ingredients.*' => 'string', // Each ingredient must be a string
+            'instructions' => 'required|string',
+        ]
+    ];
+
     public function __construct(Recipe $model)
     {
         parent::__construct($model);
@@ -57,7 +69,7 @@ class RecipeService extends Service {
 
         $query->where('name', 'like', "%$search%");
         
-        $possibleCategories = ['appatisers', 'starters', 'maindishes', 'desserts'];
+        $possibleCategories = ['appetizers', 'starters', 'maindishes', 'desserts'];
         if (in_array($category, $possibleCategories)) {
             $query->where('category', $category);
         }
@@ -69,5 +81,23 @@ class RecipeService extends Service {
             $recipe = $this->addCreatorToRecipe($recipe);
             return $this->transformToSimple($recipe);
         });
+    }
+
+    public function addRecipe($data, String $ruleKey = "add") {
+        if (!$this->validate($data, $ruleKey)) {
+            return;
+        }
+
+        $recipe = new Recipe();
+        $recipe->name = $data['name'];
+        $recipe->creator_id = $data['creator_id'];
+        $recipe->image_url = "not implemented yet";
+        $recipe->category = $data['category'];
+        $recipe->calories = $data['calories'];
+        $recipe->ingredients = $data['ingredients'];
+        $recipe->instructions = $data['instructions'];
+        $recipe->save();
+
+        return $this->getRecipe($recipe->id);
     }
 }

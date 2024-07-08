@@ -38,5 +38,4 @@ Route::group([
 
     Route::put("recipe/{id}", function () { return "Not implemented"; });
     Route::delete("recipe/{id}", function () { return "Not implemented"; });
-
 });
