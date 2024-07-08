@@ -5,6 +5,7 @@ namespace App\Modules\Recipes\Services;
 use App\Models\Recipe;
 use App\Modules\Core\Services\Service;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RecipeService extends Service {
 
@@ -17,6 +18,7 @@ class RecipeService extends Service {
             'ingredients' => 'required|array|min:1',
             'ingredients.*' => 'string', // Each ingredient must be a string
             'instructions' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
         ]
     ];
 
@@ -97,6 +99,16 @@ class RecipeService extends Service {
         $recipe->ingredients = $data['ingredients'];
         $recipe->instructions = $data['instructions'];
         $recipe->save();
+
+        // Handle image upload
+        if (isset($data['image'])) {
+            $image = $data['image'];
+            $baseImageName = basename($recipe->name, $image->extension());
+            $imageName = Str::slug($baseImageName) . "-" . time() . "." . $image->extension();
+            $image->move(storage_path('app/images'), $imageName);
+            $recipe->image_url = "/images/" . $imageName;
+            $recipe->save();
+        }
 
         return $this->getRecipe($recipe->id);
     }

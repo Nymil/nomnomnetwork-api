@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +36,14 @@ Route::group([
 
     Route::delete("recipes/{id}", [RecipeController::class, 'delete']);
     Route::put("recipes/{id}", function () { return "Not implemented"; });
+
+    Route::get("images/{image_name}", function ($filename) {
+        $path = storage_path('app/images/' . $filename);
+
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Image not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->file($path);
+    });
 });

@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Like;
 use App\Models\Recipe;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class RecipeSeeder extends Seeder
 {
@@ -22,6 +23,8 @@ class RecipeSeeder extends Seeder
         // skip the first line
         fgetcsv($file);
 
+        // to keep the same timestamps for the seeder
+        $startTime = 1720467154;
         while (($line = fgetcsv($file, 0, ',')) !== FALSE) {
             $creatorId = DB::table('users')->inRandomOrder()->value('id');
 
@@ -35,6 +38,13 @@ class RecipeSeeder extends Seeder
             $recipe->instructions = $line[4];
 
             $recipe->save();
+
+            $baseImageName = basename($recipe->name, "jpg");
+            $imageName = Str::slug($baseImageName) . "-" . $startTime . ".jpg";
+
+            $recipe->image_url = "/images/" . $imageName;
+            $recipe->save();
+            $startTime++;
         }
         fclose($file);
 

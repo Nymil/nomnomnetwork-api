@@ -6,7 +6,6 @@ use App\Models\Like;
 use App\Models\Recipe;
 use App\Models\User;
 use App\Modules\Core\Services\Service;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service {
