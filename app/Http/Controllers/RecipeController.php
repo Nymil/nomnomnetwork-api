@@ -62,4 +62,15 @@ class RecipeController extends Controller
 
         return response()->json($recipe);
     }
+
+    public function getImage($filename)
+    {
+        $path = storage_path('app/images/' . $filename);
+
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Image not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->file($path);
+    }
 }
