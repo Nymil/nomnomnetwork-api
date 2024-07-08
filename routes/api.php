@@ -21,11 +21,11 @@ Route::post("user/register", function () { return "Not implemented"; });
 Route::group([
     // auth middleware later
 ], function () {
-    Route::get("user/check", function () { return "Not implemented"; });
-    Route::get("user/logout", function () { return "Not implemented"; });
+    Route::get("users/check", function () { return "Not implemented"; });
+    Route::get("users/logout", function () { return "Not implemented"; });
 
-    Route::put("user/{user_id}/recipe/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
-    Route::delete("user/{user_id}/recipe/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
+    Route::put("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
+    Route::delete("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
 
     Route::get("recipes", [RecipeController::class, 'all']);
     Route::get("recipes/{id}", [RecipeController::class, 'get']);
@@ -34,8 +34,6 @@ Route::group([
     Route::get("recipes/liked/{user_id}", [UserController::class, 'getLikedRecipes']);
     Route::get("recipes/created/{user_id}", [UserController::class, 'getCreatedRecipes']);
 
-    // later aditions 
-
-    Route::put("recipe/{id}", function () { return "Not implemented"; });
-    Route::delete("recipe/{id}", function () { return "Not implemented"; });
+    Route::delete("recipes/{id}", [RecipeController::class, 'delete']);
+    Route::put("recipes/{id}", function () { return "Not implemented"; });
 });

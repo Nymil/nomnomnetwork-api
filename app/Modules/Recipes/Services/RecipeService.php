@@ -100,4 +100,15 @@ class RecipeService extends Service {
 
         return $this->getRecipe($recipe->id);
     }
+
+    public function deleteRecipe($id) {
+        $recipe = $this->model->find($id);
+
+        if (!$recipe) {
+            return null;
+        }
+
+        $recipe->delete();
+        return $recipe;
+    }
 }

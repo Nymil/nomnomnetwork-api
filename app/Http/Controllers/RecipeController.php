@@ -51,4 +51,15 @@ class RecipeController extends Controller
 
         return response()->json($recipe, Response::HTTP_CREATED);
     }
+
+    public function delete($id)
+    {
+        $recipe = $this->service->deleteRecipe($id);
+
+        if (!$recipe) {
+            return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($recipe);
+    }
 }
