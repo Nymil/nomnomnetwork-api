@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post("user/login", function () { return "Not implemented"; });
-Route::post("user/register", function () { return "Not implemented"; });
+Route::post("user/register", [UserController::class, 'add']);
 
 Route::group([
     // auth middleware later
