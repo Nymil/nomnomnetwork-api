@@ -13,7 +13,7 @@ class RecipeService extends Service {
         'add' => [
             'name' => 'required|string',
             'creator_id' => 'required|integer|exists:users,id|min:1',
-            'category' => 'required|string|in:appetizers,starters,maindishes,desserts',
+            'category' => 'required|string|in:appetizers,starters,maindishes,"desserts"',
             'calories' => 'required|integer|min:3',
             'ingredients' => 'required|array|min:1',
             'ingredients.*' => 'string', // Each ingredient must be a string
