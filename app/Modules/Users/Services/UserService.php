@@ -15,6 +15,10 @@ class UserService extends Service {
             'name' => 'required|unique:users,name',
             'password' => 'required|min:5',
         ],
+        "login" => [
+            'name' => 'required',
+            'password' => 'required'
+        ]
     ];
 
     public function __construct(User $model)

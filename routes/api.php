@@ -15,14 +15,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post("user/login", function () { return "Not implemented"; });
-Route::post("user/register", [UserController::class, 'add']);
+Route::post("users/login", [UserController::class, 'login']);
+Route::post("users/register", [UserController::class, 'add']);
 
 Route::group([
-    // auth middleware later
+    "middleware" => ["auth:api"]
 ], function () {
-    Route::get("users/check", function () { return "Not implemented"; });
-    Route::get("users/logout", function () { return "Not implemented"; });
+    Route::get("users/check", function () { return response()->json(["message" => "User is still logged in"]); });
+    Route::get("users/logout", [UserController::class, 'logout']);
+    Route::get("users/refresh", [UserController::class, 'refresh']);
 
     Route::put("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
     Route::delete("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe

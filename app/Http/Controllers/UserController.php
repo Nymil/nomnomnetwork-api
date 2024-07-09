@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Modules\Users\Services\UserService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Contracts\Providers\JWT;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -80,5 +82,39 @@ class UserController extends Controller
         }
 
         return response()->json($user, Response::HTTP_CREATED);
+    }
+
+    public function login(Request $request) {
+        $data = $request->all();
+
+        // data validation
+        $ruleKey = 'login';
+        $this->service->validate($data, $ruleKey);
+        if ($this->service->hasErrors()) {
+            return response()->json(['error' => 'Invalid data', 'errors' => $this->service->getErrors()], Response::HTTP_BAD_REQUEST);
+        }
+
+        $token = JWTAuth::attempt([
+            'name' => $data['name'],
+            'password' => $data['password']
+        ]);
+
+        if (empty($token)) {
+            return response()->json(["message" => "Invalid credentials"], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return response()->json(["message" => "Login successful", "token" => $token]);
+    }
+
+    public function refreshToken() {
+        $newToken = JWTAuth::refresh();
+
+        return response()->json(["message" => "Token refresh successfull", "token" => $newToken]);
+    }
+
+    public function logout() {
+        JWTAuth::invalidate();
+
+        return response()->json(["message" => "Logout successfull"]);
     }
 }
