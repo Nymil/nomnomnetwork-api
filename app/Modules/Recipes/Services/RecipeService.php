@@ -106,7 +106,7 @@ class RecipeService extends Service {
             $baseImageName = basename($recipe->name, $image->extension());
             $imageName = Str::slug($baseImageName) . "-" . time() . "." . $image->extension();
             $image->move(storage_path('app/images'), $imageName);
-            $recipe->image_url = "/images/" . $imageName;
+            $recipe->image_url = "/api/images/" . $imageName;
             $recipe->save();
         }
 

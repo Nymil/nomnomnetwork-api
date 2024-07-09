@@ -42,7 +42,7 @@ class RecipeSeeder extends Seeder
             $baseImageName = basename($recipe->name, "jpg");
             $imageName = Str::slug($baseImageName) . "-" . $startTime . ".jpg";
 
-            $recipe->image_url = "/images/" . $imageName;
+            $recipe->image_url = "/api/images/" . $imageName;
             $recipe->save();
             $startTime++;
         }
