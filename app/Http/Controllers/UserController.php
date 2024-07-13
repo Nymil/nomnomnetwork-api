@@ -103,7 +103,12 @@ class UserController extends Controller
             return response()->json(["message" => "Invalid credentials"], Response::HTTP_UNAUTHORIZED);
         }
 
-        return response()->json(["message" => "Login successful", "token" => $token]);
+        return response()->json([
+            "message" => "Login successful",
+            "token" => $token,
+            "user_id" => JWTAuth::user()->id, 
+            "username" => $data['name']
+        ]);
     }
 
     public function refreshToken() {
