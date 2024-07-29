@@ -81,7 +81,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Invalid data', 'errors' => $this->service->getErrors()], Response::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($user, Response::HTTP_CREATED);
+        return response()->json(["message" => "user registered successfuly"], Response::HTTP_CREATED);
     }
 
     public function login(Request $request) {
