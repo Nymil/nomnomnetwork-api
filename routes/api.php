@@ -21,22 +21,22 @@ Route::post("users/register", [UserController::class, 'add']);
 Route::group([
     "middleware" => ["auth:api"]
 ], function () {
-    Route::get("users/check", function () { return response()->json(["message" => "User is still logged in"]); });
-    Route::get("users/logout", [UserController::class, 'logout']);
-    Route::get("users/refresh", [UserController::class, 'refresh']);
+    Route::post("users/check", function () { return response()->json(["message" => "User is still logged in"]); });
+    Route::post("users/logout", [UserController::class, 'logout']);
+    Route::post("users/refresh", [UserController::class, 'refresh']);
 
     Route::put("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
     Route::delete("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
 
-    Route::get("recipes", [RecipeController::class, 'all']);
-    Route::get("recipes/{id}", [RecipeController::class, 'get']);
+    Route::post("recipes", [RecipeController::class, 'all']);
+    Route::post("recipes/{id}", [RecipeController::class, 'get']);
     Route::post("recipes", [RecipeController::class, 'add']);
 
-    Route::get("recipes/liked/{user_id}", [UserController::class, 'getLikedRecipes']);
-    Route::get("recipes/created/{user_id}", [UserController::class, 'getCreatedRecipes']);
+    Route::post("recipes/liked/{user_id}", [UserController::class, 'getLikedRecipes']);
+    Route::post("recipes/created/{user_id}", [UserController::class, 'getCreatedRecipes']);
 
     Route::delete("recipes/{id}", [RecipeController::class, 'delete']);
     Route::put("recipes/{id}", function () { return "Not implemented"; });
 
-    Route::get("images/{image_name}", [RecipeController::class, 'getImage']);
+    Route::post("images/{image_name}", [RecipeController::class, 'getImage']);
 });
