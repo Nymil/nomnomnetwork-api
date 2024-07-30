@@ -71,7 +71,7 @@ class RecipeService extends Service {
 
         $query->where('name', 'like', "%$search%");
         
-        $possibleCategories = ['appetizers', 'starters', 'maindishes', 'desserts'];
+        $possibleCategories = ['appetizers', 'starters', 'mains', 'desserts'];
         if (in_array($category, $possibleCategories)) {
             $query->where('category', $category);
         }
