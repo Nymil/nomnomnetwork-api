@@ -54,7 +54,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($recipe);
+        return response()->json(["message" => "Recipe liked successfuly"]);
     }
 
     public function unlikeRecipe(Request $request, $user_id, $recipe_id) {
@@ -70,7 +70,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Recipe not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($recipe);
+        return response()->json(["message" => "Recipe unliked successfuly"]);
     }
 
     public function add(Request $request) {

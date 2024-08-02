@@ -28,7 +28,7 @@ Route::group([
     Route::patch("users/refresh", [UserController::class, 'refresh']);
 
     Route::put("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'likeRecipe']); // for liking a recipe
-    Route::delete("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
+    Route::patch("users/{user_id}/recipes/{recipe_id}", [UserController::class, 'unlikeRecipe']); // for unliking a recipe
 
     Route::patch("recipes", [RecipeController::class, 'all']);
     Route::patch("recipes/{id}", [RecipeController::class, 'get']);
