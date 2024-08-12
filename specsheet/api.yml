@@ -316,13 +316,13 @@ components:
           type: string
           format: binary
         creator_id:
-          type: int
+          type: integer
           example: 1
         category:
           type: string
           enum: ['appetizer', 'starters', 'mains', 'desserts']
         calories:
-          type: int
+          type: integer
           example: 200
         ingredients:
           type: array
