@@ -282,13 +282,13 @@ components:
           type: string
           example: "John Doe"
     RecipeDetails:
-      allof:
+      allOf:
         - $ref: '#/components/schemas/RecipeOverview'
         - type: object
           properties:
             category:
-                type: string
-                enum: ['appetizer', 'starters', 'mains', 'desserts']
+              type: string
+              enum: ['appetizer', 'starters', 'mains', 'desserts']
             calories:
               type: integer
               example: 200
@@ -299,7 +299,7 @@ components:
               example: ["apple", "flour", "sugar"]
             instructions:
               type: string
-              example: "mix flower afterwards add sugar"
+              example: "mix flour, afterwards add sugar"
     TokenBody:
       type: object
       properties:
@@ -351,18 +351,20 @@ components:
           type: string
           example: "password"
     UserLoginResponse:
-      message:
-        type: string
-        example: "User logged in successfully"
-      token:
-        type: string
-        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIn0.7Jy"
-      username:
-        type: string
-        example: "JohnDoe"
-      user_id:
-        type: integer
-        example: 1
+      type: object
+      properties:
+        message:
+          type: string
+          example: "User logged in successfully"
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIn0.7Jy"
+        username:
+          type: string
+          example: "JohnDoe"
+        user_id:
+          type: integer
+          example: 1
       
     
 
