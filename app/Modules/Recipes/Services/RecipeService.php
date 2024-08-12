@@ -18,7 +18,7 @@ class RecipeService extends Service {
             'ingredients' => 'required|array|min:1',
             'ingredients.*' => 'string', // Each ingredient must be a string
             'instructions' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+            'image' => 'required|image'
         ]
     ];
 
@@ -93,7 +93,7 @@ class RecipeService extends Service {
         $recipe = new Recipe();
         $recipe->name = $data['name'];
         $recipe->creator_id = $data['creator_id'];
-        $recipe->image_url = "not implemented yet";
+        $recipe->image_url = "";
         $recipe->category = $data['category'];
         $recipe->calories = $data['calories'];
         $recipe->ingredients = $data['ingredients'];

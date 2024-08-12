@@ -1,0 +1,369 @@
+openapi: '3.0.2'
+info:
+  title: nomnomnetwork
+  version: '1.0'
+servers:
+  - url: https://nomnomnetwork.test/api
+
+tags:
+  - name: user
+    description: Paths that have to do with the user
+  - name: recipe
+    description: Paths that have to do with the recipes
+paths: 
+  /recipes:
+    patch:
+      tags:
+        - recipe
+      description: 'get all recipes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters: 
+        - name: search
+          in: query
+          description: Filter by the name of the recipe
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filter by the category of the recipe
+          required: false
+          schema:
+            type: string
+            enum: ['appetizer', 'starters', 'mains', 'desserts']
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipeOverview'
+    post:
+      tags:
+        - recipe
+      description: 'create a recipe'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipePostBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+  /recipes/{id}:
+    patch:
+      tags:
+        - recipe
+      description: 'get a recipe by id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters:
+        - name: id
+          in: path
+          description: ID of the recipe to return
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeDetails'
+  /recipes/liked/{user_id}:
+    patch:
+      tags:
+        - recipe
+      description: 'get all liked recipes by user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user to return liked recipes
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipeOverview'
+  /recipes/created/{user_id}:
+    patch:
+      tags:
+        - recipe
+      description: 'get all created recipes by user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user to return created recipes
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipeOverview'
+  /users/{user_id}/recipes/{recipe_id}:
+    put:
+      tags:
+        - recipe
+      description: 'like a recipe'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user to like a recipe
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: recipe_id
+          in: path
+          description: ID of the recipe to like
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+    patch:
+      tags:
+        - recipe
+      description: 'unlike a recipe'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user to unlike a recipe
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: recipe_id
+          in: path
+          description: ID of the recipe to unlike
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+  /users/login:
+    post:
+      tags:
+        - user
+      description: 'login a user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+  /users/register:
+    post:
+      tags:
+        - user
+      description: 'register a user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+  /uers/check:
+    post:
+      tags:
+        - user
+      description: 'check if a user is logged in'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
+components:
+  schemas:
+    RecipeOverview:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: apple cookies
+        img_url:
+          type: string
+          example: "api/images/apple-cookies-198915.jpg"
+        creator:
+          type: string
+          example: "John Doe"
+    RecipeDetails:
+      allof:
+        - $ref: '#/components/schemas/RecipeOverview'
+        - type: object
+          properties:
+            category:
+                type: string
+                enum: ['appetizer', 'starters', 'mains', 'desserts']
+            calories:
+              type: integer
+              example: 200
+            ingredients:
+              type: array
+              items:
+                type: string
+              example: ["apple", "flour", "sugar"]
+            instructions:
+              type: string
+              example: "mix flower afterwards add sugar"
+    TokenBody:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIn0.7Jy"
+    RecipePostBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: apple cookies
+        image:
+          type: string
+          format: binary
+        creator_id:
+          type: int
+          example: 1
+        category:
+          type: string
+          enum: ['appetizer', 'starters', 'mains', 'desserts']
+        calories:
+          type: int
+          example: 200
+        ingredients:
+          type: array
+          items:
+            type: string
+          example: ["apple", "flour", "sugar"]
+        instructions:
+          type: string
+          example: "mix flower afterwards add sugar"
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIn0.7Jy"
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "User registered successfully"
+    UserLoginBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "JohnDoe"
+        password:
+          type: string
+          example: "password"
+    UserLoginResponse:
+      message:
+        type: string
+        example: "User logged in successfully"
+      token:
+        type: string
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIn0.7Jy"
+      username:
+        type: string
+        example: "JohnDoe"
+      user_id:
+        type: integer
+        example: 1
+      
+    
+
+    
